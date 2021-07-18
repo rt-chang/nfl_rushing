@@ -1,6 +1,6 @@
 defmodule NflRushing.Record do
   @moduledoc """
-  Context for a player's record of rushing statistics
+  Schema for a player's record of rushing statistics
   """
   use Ecto.Schema
   import Ecto.Changeset
@@ -23,6 +23,7 @@ defmodule NflRushing.Record do
     field :fumbles, :integer
   end
 
+  @doc false
   def changeset(record, params \\ %{}) do
     record
     |> cast(params, [
