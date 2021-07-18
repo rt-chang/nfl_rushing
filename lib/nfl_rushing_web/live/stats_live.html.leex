@@ -1,42 +1,68 @@
-<div>
-  <table>
-    <tr>
-      <th>Player</th>
-      <th>Team</th>
-      <th>Pos</th>
-      <th>Att</th>
-      <th>Att/G</th>
-      <th>Yds</th>
-      <th>Avg</th>
-      <th>Yds/G</th>
-      <th>TD</th>
-      <th>Lng</th>
-      <th>1st</th>
-      <th>1st%</th>
-      <th>20+</th>
-      <th>40+</th>
-      <th>FUM</th>
-    </tr>
+<div class="flex flex-row justify-start ml-4 mt-4 max-w-full">
+  <div class="w-full max-w-full">
+    <div>
+      <form phx-submit="filter-player">
+        <label for="filter-input">Filter by player name</label>
+        <input id="filter-input" name="player" type="text" value="<%= @filter_player %>"/>
+        <button type="submit">Submit</button>
+      </form>
 
-    <%= for record <- @records do %>
-      <tr>
-        <td><%= record.player %></td>
-        <td><%= record.team %></td>
-        <td><%= record.position %></td>
-        <td><%= record.attempts %></td>
-        <td><%= record.attempts_per_game_avg %></td>
-        <td><%= record.yards %></td>
-        <td><%= record.avg_yards_per_attempt %></td>
-        <td><%= record.yards_per_game %></td>
-        <td><%= record.touchdowns %></td>
-        <td><%= record.longest_rush %></td>
-        <td><%= record.first_downs %></td>
-        <td><%= record.first_down_percentage %></td>
-        <td><%= record.twenty_yards_plus %></td>
-        <td><%= record.forty_yards_plus %></td>
-        <td><%= record.fumbles %></td>
-      </tr>
-    <% end %>
-
-  </table>
+    </div>
+    <div class="w-full mt-4 mb-8">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Team</th>
+            <th>Pos</th>
+            <th>Att</th>
+            <th>Att/G</th>
+            <th class="cursor-pointer text-blue-600 underline"
+                phx-click="sort-by"
+                phx-value-attr="yards">
+              Yds
+            </th>
+            <th>Avg</th>
+            <th>Yds/G</th>
+            <th class="cursor-pointer text-blue-600 underline"
+                phx-click="sort-by"
+                phx-value-attr="touchdowns">
+              TD
+            </th>
+            <th class="cursor-pointer text-blue-600 underline"
+                phx-click="sort-by"
+                phx-value-attr="longest_rush">
+              Lng
+            </th>
+            <th>1st</th>
+            <th>1st%</th>
+            <th>20+</th>
+            <th>40+</th>
+            <th>FUM</th>
+          </tr>
+        <thead>
+        <tbody>
+          <%= for record <- @records do %>
+            <tr>
+              <td><%= record.player %></td>
+              <td><%= record.team %></td>
+              <td><%= record.position %></td>
+              <td><%= record.attempts %></td>
+              <td><%= record.attempts_per_game_avg %></td>
+              <td><%= record.yards %></td>
+              <td><%= record.avg_yards_per_attempt %></td>
+              <td><%= record.yards_per_game %></td>
+              <td><%= record.touchdowns %></td>
+              <td><%= record.longest_rush %></td>
+              <td><%= record.first_downs %></td>
+              <td><%= record.first_down_percentage %></td>
+              <td><%= record.twenty_yards_plus %></td>
+              <td><%= record.forty_yards_plus %></td>
+              <td><%= record.fumbles %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
