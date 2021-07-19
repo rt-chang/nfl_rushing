@@ -9,8 +9,8 @@
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
-    <header class="mt-4 ml-4">
+  <body class="mt-4 ml-8">
+    <header class="mb-4">
       <h1 class="font-bold text-3xl">NFL Rushing Statistics</h1>
     </header>
     <%= @inner_content %>

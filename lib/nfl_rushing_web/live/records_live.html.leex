@@ -1,18 +1,28 @@
-<div class="flex flex-row justify-start ml-4 mt-4 max-w-full">
+<div class="flex flex-row justify-start max-w-full">
   <div class="w-full max-w-full">
-    <div>
-      <form phx-submit="filter-player">
-        <label for="filter-input">Filter by player name</label>
-        <input id="filter-input" name="player" type="text" value="<%= @filter_player %>"/>
-        <button type="submit">Submit</button>
-      </form>
+    <div class="flex flex-row">
+      <div>
+        <form phx-submit="filter-by-player" phx-change="filter-by-player">
+          <label for="filter-input">Filter by player name</label>
+          <input class="rounded"
+                 phx-debounce="200"
+                 id="filter-input"
+                 name="player"
+                 type="text"
+                 placeholder="ex. Joe Banyard"
+                 value="<%= @filter_by_player %>"/>
+        </form>
+      </div>
 
+      <div class="ml-4">
+        <%= button("Download CSV", to: get_download_link(assigns), target: "_blank", class: "bg-blue-400 hover:bg-blue-500") %>
+      </div>
     </div>
-    <div class="w-full mt-4 mb-8">
-      <table class="w-full">
+    <div class="w-full mt-4 mb-4 bg-white shadow-md rounded">
+      <table class="w-full table-auto">
         <thead>
-          <tr>
-            <th>Player</th>
+          <tr class="bg-gray-200 text-gray-600 uppercase">
+            <th class="pl-2 pb-1">Player</th>
             <th>Team</th>
             <th>Pos</th>
             <th>Att</th>
@@ -43,8 +53,8 @@
         <thead>
         <tbody>
           <%= for record <- @records do %>
-            <tr>
-              <td><%= record.player %></td>
+            <tr class="hover:bg-gray-100">
+              <td class="pl-2 pb-1"><%= record.player %></td>
               <td><%= record.team %></td>
               <td><%= record.position %></td>
               <td><%= record.attempts %></td>
@@ -63,6 +73,21 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+
+    <div class="flex flex-row mb-4">
+      <%= if @pagination_opts.page > 1 do %>
+        <button class="mr-2 bg-indigo-400 hover:bg-indigo-500"
+                phx-click="fetch-page"
+                phx-value-direction="previous">
+          Prev
+        </button>
+      <% end %>
+      <button class= "bg-indigo-400 hover:bg-indigo-500"
+              phx-click="fetch-page"
+              phx-value-direction="next">
+        Next
+      </button>
     </div>
   </div>
 </div>

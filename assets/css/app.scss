@@ -89,3 +89,15 @@
   display: block;
   margin: -1rem 0 2rem;
 }
+
+@layer base {
+  td {
+    @apply text-left
+  }
+  th {
+    @apply text-left
+  }
+  button {
+    @apply rounded shadow-md p-4 text-white
+  }
+}
