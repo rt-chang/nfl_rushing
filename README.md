@@ -54,7 +54,7 @@ We will evaluate you on your ability to solve the problem defined in the require
 If you have any questions regarding requirements, do not hesitate to email your contact at theScore for clarification.
 
 ### Installation and running this solution
-1. Clone this repo with `git clone` on to your local machine
+1. Clone this repo with `git clone https://github.com/rt-chang/nfl_rushing.git` on to your local machine
 2. Install Docker if you do not already have it (https://docs.docker.com/engine/install/)
 3. Navigate to the root of the project folder
 4. Run `docker-compose build` to build the images
