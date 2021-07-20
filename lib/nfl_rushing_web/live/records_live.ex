@@ -24,33 +24,35 @@ defmodule NflRushingWeb.RecordsLive do
   @impl Phoenix.LiveView
   def handle_event("filter-by-player", %{"player" => player}, socket) do
     player = String.trim(player)
-    current_filter = socket.assigns.filter_by_player
+    is_new_filter = player != socket.assigns.filter_by_player
+
+    pagination_opts =
+      if is_new_filter do
+        %{page: 1, per_page: socket.assigns.pagination_opts.per_page}
+      else
+        socket.assigns.pagination_opts
+      end
 
     records =
       cond do
-        # Filtering by new player
-        String.length(player) > 0 and player != current_filter ->
-          Records.list_records_with_player(
-            player,
-            Map.merge(socket.assigns.pagination_opts, %{
+        is_new_filter ->
+          opts =
+            Map.merge(pagination_opts, %{
               sort_by: socket.assigns.sort_by,
               sort_direction: socket.assigns.sort_direction
             })
-          )
 
-        # Filtering by same player as previous query
-        player == current_filter ->
+          Records.list_records_with_player(player, opts)
+
+        player == socket.assigns.filter_by_player ->
           socket.assigns.records
-
-        # Otherwise, return all records
-        true ->
-          Records.list_records(socket.assigns.pagination_opts)
       end
 
     socket =
       socket
       |> assign(records: records)
       |> assign(filter_by_player: player)
+      |> assign(pagination_opts: pagination_opts)
 
     {:noreply, socket}
   end
