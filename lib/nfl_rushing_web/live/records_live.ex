@@ -13,6 +13,7 @@ defmodule NflRushingWeb.RecordsLive do
     socket =
       socket
       |> assign(records: Records.list_records(pagination_opts))
+      |> assign(total_records: Records.count_records())
       |> assign(filter_by_player: "")
       |> assign(sort_by: nil)
       |> assign(sort_direction: nil)
@@ -25,23 +26,14 @@ defmodule NflRushingWeb.RecordsLive do
   def handle_event("filter-by-player", %{"player" => player}, socket) do
     player = String.trim(player)
     is_new_filter = player != socket.assigns.filter_by_player
-
-    pagination_opts =
-      if is_new_filter do
-        %{page: 1, per_page: socket.assigns.pagination_opts.per_page}
-      else
-        socket.assigns.pagination_opts
-      end
+    pagination_opts = update_pagination_opts(is_new_filter, socket)
+    total_records = update_total_records(is_new_filter, player, socket)
 
     records =
       cond do
         is_new_filter ->
-          opts =
-            Map.merge(pagination_opts, %{
-              sort_by: socket.assigns.sort_by,
-              sort_direction: socket.assigns.sort_direction
-            })
-
+          sort_opts = %{sort_by: socket.assigns.sort_by, sort_direction: socket.assigns.sort_direction}
+          opts = Map.merge(pagination_opts, sort_opts)
           Records.list_records_with_player(player, opts)
 
         player == socket.assigns.filter_by_player ->
@@ -53,6 +45,7 @@ defmodule NflRushingWeb.RecordsLive do
       |> assign(records: records)
       |> assign(filter_by_player: player)
       |> assign(pagination_opts: pagination_opts)
+      |> assign(total_records: total_records)
 
     {:noreply, socket}
   end
@@ -101,6 +94,22 @@ defmodule NflRushingWeb.RecordsLive do
       |> assign(pagination_opts: %{page: new_page, per_page: pagination_opts.per_page})
 
     {:noreply, socket}
+  end
+
+  defp update_pagination_opts(is_new_filter, socket) do
+    if is_new_filter do
+      %{page: 1, per_page: socket.assigns.pagination_opts.per_page}
+    else
+      socket.assigns.pagination_opts
+    end
+  end
+
+  defp update_total_records(is_new_filter, player, socket) do
+    if is_new_filter do
+      Records.count_records(player)
+    else
+      socket.assigns.total_records
+    end
   end
 
   defp get_sort_direction(sort_by, socket) do

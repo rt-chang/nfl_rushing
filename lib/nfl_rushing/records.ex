@@ -20,15 +20,29 @@ defmodule NflRushing.Records do
         sort_by: sort_by,
         sort_direction: sort_direction
       }) do
-    player_name_wildcard = "%" <> player <> "%"
 
     query =
       Record
-      |> where([r], ilike(r.player, ^player_name_wildcard))
+      |> with_player(player)
       |> paginate(page, per_page)
       |> with_order(sort_direction, sort_by)
 
     Repo.all(query)
+  end
+
+  def count_records() do
+    Repo.aggregate(Record, :count)
+  end
+
+  def count_records(player) do
+    Record
+    |> with_player(player)
+    |> Repo.aggregate(:count)
+  end
+
+  defp with_player(query, player) do
+    player_name_wildcard = "%" <> player <> "%"
+    where(query, [r], ilike(r.player, ^player_name_wildcard))
   end
 
   defp order_by_longest_rush(query, sort_direction) do

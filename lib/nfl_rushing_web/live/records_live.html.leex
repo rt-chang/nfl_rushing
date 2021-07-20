@@ -82,12 +82,19 @@
                 phx-value-direction="previous">
           Prev
         </button>
+      <% else %>
+        <button class="mr-2 bg-indigo-400 opacity-50 cursor-default" disabled>Prev</button>
       <% end %>
-      <button class= "bg-indigo-400 hover:bg-indigo-500"
-              phx-click="fetch-page"
-              phx-value-direction="next">
-        Next
-      </button>
+
+      <%= if @pagination_opts.page * @pagination_opts.per_page < @total_records do %>
+        <button class="bg-indigo-400 hover:bg-indigo-500"
+                phx-click="fetch-page"
+                phx-value-direction="next">
+          Next
+        </button>
+      <% else %>
+        <button class="mr-2 bg-indigo-400 opacity-50 cursor-default" disabled>Next</button>
+      <% end %>
     </div>
   </div>
 </div>
