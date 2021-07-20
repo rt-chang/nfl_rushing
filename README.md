@@ -37,7 +37,7 @@ In this repo is a sample data file [`rushing.json`](/rushing.json).
     2. The user should be able to sort the players by _Total Rushing Yards_, _Longest Rush_ and _Total Rushing Touchdowns_
     3. The user should be able to filter by the player's name
     4. The user should be able to download the sorted data as a CSV, as well as a filtered subset
-    
+
 2. The system should be able to potentially support larger sets of data on the order of 10k records.
 
 3. Update the section `Installation and running this solution` in the README file explaining how to run your code
@@ -54,4 +54,10 @@ We will evaluate you on your ability to solve the problem defined in the require
 If you have any questions regarding requirements, do not hesitate to email your contact at theScore for clarification.
 
 ### Installation and running this solution
-... TODO
+1. Clone this repo with `git clone` on to your local machine
+2. Install Docker if you do not already have it (https://docs.docker.com/engine/install/)
+3. Navigate to the root of the project folder
+4. Run `docker-compose build` to build the images
+5. Run `docker-compose run phoenix ecto.setup` to create and seed the database
+6. Run `docker-compose up`
+7. Once that is successfully started, navigate to `http://localhost:4000` in your browser to view the app
