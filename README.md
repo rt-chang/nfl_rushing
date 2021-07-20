@@ -58,6 +58,6 @@ If you have any questions regarding requirements, do not hesitate to email your 
 2. Install Docker if you do not already have it (https://docs.docker.com/engine/install/)
 3. Navigate to the root of the project folder
 4. Run `docker-compose build` to build the images
-5. Run `docker-compose run phoenix ecto.setup` to create and seed the database
+5. Run `docker-compose run phoenix mix ecto.setup` to create and seed the database
 6. Run `docker-compose up`
 7. Once that is successfully started, navigate to `http://localhost:4000` in your browser to view the app
