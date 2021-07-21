@@ -2,7 +2,7 @@
   <div class="w-full max-w-full">
     <div class="flex flex-row">
       <div>
-        <form phx-submit="filter-by-player" phx-change="filter-by-player">
+        <form id="filter-form" phx-submit="filter-by-player" phx-change="filter-by-player">
           <label for="filter-input">Filter by player name</label>
           <input class="rounded leading-10"
                  phx-debounce="200"
@@ -15,11 +15,11 @@
       </div>
 
       <div class="ml-4">
-        <%= button("Download CSV", to: get_download_link(assigns), target: "_blank", class: "bg-blue-400 hover:bg-blue-500") %>
+        <%= button("Download CSV", to: get_download_link(assigns), target: "_blank", class: "bg-blue-400 hover:bg-blue-500", id: "download-btn") %>
       </div>
     </div>
     <div class="w-full mt-4 mb-4 bg-white shadow-md rounded">
-      <table class="w-full table-auto">
+      <table class="w-full table-auto" id="records-table">
         <thead>
           <tr class="bg-gray-200 text-gray-600 uppercase">
             <th class="pl-2 pb-1">Player</th>
@@ -28,6 +28,7 @@
             <th>Att</th>
             <th>Att/G</th>
             <th class="cursor-pointer text-blue-600 underline"
+                id="yards-header"
                 phx-click="sort-by"
                 phx-value-attr="yards">
               Yds
@@ -35,11 +36,13 @@
             <th>Avg</th>
             <th>Yds/G</th>
             <th class="cursor-pointer text-blue-600 underline"
+                id="touchdowns-header"
                 phx-click="sort-by"
                 phx-value-attr="touchdowns">
               TD
             </th>
             <th class="cursor-pointer text-blue-600 underline"
+                id="rush-header"
                 phx-click="sort-by"
                 phx-value-attr="longest_rush">
               Lng
@@ -53,7 +56,7 @@
         <thead>
         <tbody>
           <%= for record <- @records do %>
-            <tr class="hover:bg-gray-100">
+            <tr class="record hover:bg-gray-100">
               <td class="pl-2 pb-1"><%= record.player %></td>
               <td><%= record.team %></td>
               <td><%= record.position %></td>
@@ -79,21 +82,23 @@
       <%= if @pagination_opts.page > 1 do %>
         <button class="mr-2 bg-indigo-400 hover:bg-indigo-500"
                 phx-click="fetch-page"
-                phx-value-direction="previous">
+                phx-value-direction="previous"
+                id="prev-btn">
           Prev
         </button>
       <% else %>
-        <button class="mr-2 bg-indigo-400 opacity-50 cursor-default" disabled>Prev</button>
+        <button class="mr-2 bg-indigo-400 opacity-50 cursor-default" id="prev-btn" disabled>Prev</button>
       <% end %>
 
       <%= if @pagination_opts.page * @pagination_opts.per_page < @total_records do %>
         <button class="bg-indigo-400 hover:bg-indigo-500"
                 phx-click="fetch-page"
-                phx-value-direction="next">
+                phx-value-direction="next"
+                id="next-btn">
           Next
         </button>
       <% else %>
-        <button class="mr-2 bg-indigo-400 opacity-50 cursor-default" disabled>Next</button>
+        <button class="mr-2 bg-indigo-400 opacity-50 cursor-default" id="next-btn" disabled>Next</button>
       <% end %>
     </div>
   </div>

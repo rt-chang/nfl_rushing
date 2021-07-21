@@ -55,9 +55,11 @@ If you have any questions regarding requirements, do not hesitate to email your 
 
 ### Installation and running this solution
 1. Clone this repo with `git clone https://github.com/rt-chang/nfl_rushing.git` on to your local machine
-2. Install Docker if you do not already have it (https://docs.docker.com/engine/install/)
+2. Install Docker if you do not already have it (https://docs.docker.com/engine/install/). Ensure Docker is running.
 3. Navigate to the root of the project folder
 4. Run `docker-compose build` to build the images
 5. Run `docker-compose run phoenix mix ecto.setup` to create and seed the database
 6. Run `docker-compose up`
 7. Once that is successfully started, navigate to `http://localhost:4000` in your browser to view the app
+
+The original `rushing.json` file is located at `priv/repo/rushing.json`
