@@ -1,5 +1,9 @@
 # NFL Rushing Stats
 
+### Background
+This is a Phoenix LiveView web application that displays NFL rushing statistics for a number of players.
+The application also features the use of Tailwind CSS.
+
 ### Data
 The data is seeded from `priv/repo/rushing.json`. All records have the following attributes:
 * `Player` (Player's name)
